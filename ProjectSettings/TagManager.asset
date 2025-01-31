@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - Floor
+  - Projectile
+  - CanClimbOn
+  - Fire Point
+  - Case
+  - Monitor
+  - CaseLight
+  - PlayMenu
+  - Ground
+  - EffectParent
+  - RevolverBackPoint
+  - HydeThrowPoint
+  - Bullet
+  - ShootPoint
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - whatisGround
+  - Water
+  - UI
+  - weapon
+  - bullets
+  - PostProccesing
+  - VFX
+  - Enemy
+  - Player
+  - LayerMask
+  - SeeThrough
+  - Sensors
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: weapon
+    uniqueID: 521540191
+    locked: 0
