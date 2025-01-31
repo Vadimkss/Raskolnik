@@ -1,0 +1,315 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &498739983103132873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8928896541890593330}
+  - component: {fileID: 3324400378073939526}
+  - component: {fileID: 9158384332022700037}
+  - component: {fileID: 6992640276860513377}
+  m_Layer: 0
+  m_Name: UI Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8928896541890593330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498739983103132873}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 728424769680043096}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3324400378073939526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498739983103132873}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b5c3ebb24c97464da319951cafe5a47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serializedExposedParameters: []
+  _boundGraphSerialization: '{"type":"FlowCanvas.FlowScript","nodes":[{"keyCode":{"_value":27},"_position":{"x":4.0,"y":105.0},"$type":"FlowCanvas.Nodes.KeyboardEvents","$id":"0"},{"_position":{"x":327.0,"y":107.0},"$type":"FlowCanvas.Nodes.FlipFlop","$id":"1"},{"_method":{"_baseInfo":"UnityEngine.Time|set_timeScale|System.Void","_paramsInfo":"System.Single"},"_callable":true,"_position":{"x":508.0,"y":70.0},"$type":"FlowCanvas.Nodes.ReflectedMethodNodeWrapper","$id":"2"},{"targetVariable":{"_name":"IsPaused","_targetVariableID":"1359fb51-1c26-4ff7-af8e-70393dc0c76b"},"_inputPortValues":{"Value":{"$content":true,"$type":"System.Boolean"}},"_position":{"x":682.0,"y":71.0},"$type":"FlowCanvas.Nodes.SetVariable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]","$id":"3"},{"_method":{"_baseInfo":"UnityEngine.Time|set_timeScale|System.Void","_paramsInfo":"System.Single"},"_callable":true,"_inputPortValues":{"value":{"$content":1.0,"$type":"System.Single"}},"_position":{"x":509.0,"y":170.0},"$type":"FlowCanvas.Nodes.ReflectedMethodNodeWrapper","$id":"4"},{"targetVariable":{"_name":"IsPaused","_targetVariableID":"1359fb51-1c26-4ff7-af8e-70393dc0c76b"},"_position":{"x":687.0,"y":171.0},"$type":"FlowCanvas.Nodes.SetVariable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]","$id":"5"},{"_field":{"_baseInfo":"UnityEngine.UI.Button|onClick"},"_position":{"x":43.0,"y":355.0},"$type":"FlowCanvas.Nodes.UnityEventAutoCallbackEvent","$id":"6"},{"_method":{"_baseInfo":"UnityEngine.Time|set_timeScale|System.Void","_paramsInfo":"System.Single"},"_callable":true,"_inputPortValues":{"value":{"$content":1.0,"$type":"System.Single"}},"_position":{"x":345.0,"y":349.0},"$type":"FlowCanvas.Nodes.ReflectedMethodNodeWrapper","$id":"7"},{"targetVariable":{"_name":"IsPaused","_targetVariableID":"1359fb51-1c26-4ff7-af8e-70393dc0c76b"},"_position":{"x":523.0,"y":350.0},"$type":"FlowCanvas.Nodes.SetVariable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]","$id":"8"},{"value":{"_value":1},"_position":{"x":-96.0,"y":440.0},"$type":"FlowCanvas.Nodes.GetVariable`1[[UnityEngine.GameObject,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]","$id":"9"}],"connections":[{"_sourcePortName":"Down","_targetPortName":"In","_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"FlowCanvas.BinderConnection"},{"_sourcePortName":"Flip","_targetPortName":"
+    ","_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"FlowCanvas.BinderConnection"},{"_sourcePortName":"Flop","_targetPortName":"
+    ","_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"4"},"$type":"FlowCanvas.BinderConnection"},{"_sourcePortName":"
+    ","_targetPortName":"In","_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"FlowCanvas.BinderConnection"},{"_sourcePortName":"
+    ","_targetPortName":"In","_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"5"},"$type":"FlowCanvas.BinderConnection"},{"_sourcePortName":"Event","_targetPortName":"
+    ","_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"FlowCanvas.BinderConnection"},{"_sourcePortName":"
+    ","_targetPortName":"In","_sourceNode":{"$ref":"7"},"_targetNode":{"$ref":"8"},"$type":"FlowCanvas.BinderConnection"},{"_sourcePortName":"Value","_targetPortName":"Instance","_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"6"},"$type":"FlowCanvas.BinderConnection`1[[UnityEngine.UI.Button,
+    UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"}],"canvasGroups":[],"localBlackboard":{"_variables":{"IsPaused":{"_name":"IsPaused","_id":"1359fb51-1c26-4ff7-af8e-70393dc0c76b","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}}'
+  _boundGraphObjectReferences:
+  - {fileID: 0}
+  - {fileID: 0}
+  _boundGraphSource:
+    _version: 3.3
+    _category: 
+    _comments: 
+    _translation: {x: -521.1444, y: 290.2528}
+    _zoomFactor: 1
+  _firstActivation: 0
+  _enableAction: 0
+  _disableAction: 0
+  _lockBoundGraphPrefabOverrides: 1
+  _preInitializeSubGraphs: 0
+  _updateMode: 0
+  _graph: {fileID: 0}
+  _blackboard: {fileID: 9158384332022700037}
+--- !u!114 &9158384332022700037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498739983103132873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b98a6db0b653f764eac834f85857a9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parentBlackboard: {fileID: 0}
+  _serializedBlackboard: '{"_variables":{}}'
+  _objectReferences: []
+  _serializedVariables: []
+--- !u!114 &6992640276860513377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498739983103132873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba0fc01bed356d46b1c387f946df6ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PauseGame: 0
+  PauseGameMenu: {fileID: 0}
+--- !u!1 &3417039591639957974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6652975200447862190}
+  - component: {fileID: 5993194306732476981}
+  m_Layer: 0
+  m_Name: FMODEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6652975200447862190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3417039591639957974}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.4014225, y: 0.41776705, z: 1.3172126}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8409243994764848441}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5993194306732476981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3417039591639957974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb52871ac90247d45a22e865efdfb905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <FootSteps>k__BackingField:
+    Guid:
+      Data1: -2058392323
+      Data2: 1201177701
+      Data3: 1908736168
+      Data4: -647780543
+    Path: event:/FootStep
+  <Sliding>k__BackingField:
+    Guid:
+      Data1: -2085112362
+      Data2: 1220269993
+      Data3: 189271203
+      Data4: -1687137700
+    Path: event:/Sliding
+  <Jump>k__BackingField:
+    Guid:
+      Data1: 1291497394
+      Data2: 1132552112
+      Data3: 1807706803
+      Data4: -1149795473
+    Path: event:/Jump
+  <jump2>k__BackingField:
+    Guid:
+      Data1: 25880215
+      Data2: 1302275114
+      Data3: -968596565
+      Data4: -819157520
+    Path: event:/Jump 2
+  <Zipline>k__BackingField:
+    Guid:
+      Data1: -565513837
+      Data2: 1309709466
+      Data3: 52359068
+      Data4: -1507827849
+    Path: event:/Zipline
+  <DashSFX>k__BackingField:
+    Guid:
+      Data1: 1687795147
+      Data2: 1122503670
+      Data3: -1406842460
+      Data4: -1546176378
+    Path: event:/Dash
+  <Falled>k__BackingField:
+    Guid:
+      Data1: 825822607
+      Data2: 1099208099
+      Data3: 436809145
+      Data4: 2092299484
+    Path: event:/Falled
+  <Slamed>k__BackingField:
+    Guid:
+      Data1: -1271039542
+      Data2: 1104516453
+      Data3: 1437145776
+      Data4: -680508483
+    Path: event:/Slam
+  <SlamFall>k__BackingField:
+    Guid:
+      Data1: -968274399
+      Data2: 1084055347
+      Data3: 1874552238
+      Data4: -1421625170
+    Path: event:/Slam falling
+  <JakylShooting>k__BackingField:
+    Guid:
+      Data1: -2118095973
+      Data2: 1236570847
+      Data3: 1010639496
+      Data4: -112098423
+    Path: event:/DualPistolsShooting
+  <HydeShooting>k__BackingField:
+    Guid:
+      Data1: -1270796061
+      Data2: 1179792440
+      Data3: -711892320
+      Data4: -1923160300
+    Path: event:/HeavyLaserShot
+  <Focusing>k__BackingField:
+    Guid:
+      Data1: -1021779288
+      Data2: 1158515699
+      Data3: -122409293
+      Data4: -1579543609
+    Path: event:/HydeFocusing
+--- !u!1 &5171490235282814171
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8409243994764848441}
+  - component: {fileID: 1169232631941239826}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8409243994764848441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171490235282814171}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6652975200447862190}
+  m_Father: {fileID: 728424769680043096}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1169232631941239826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171490235282814171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3932eb1a87b93404296571ab69392350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &5953168734294719145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 728424769680043096}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &728424769680043096
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5953168734294719145}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.93, y: 1.5000005, z: 5.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8409243994764848441}
+  - {fileID: 8928896541890593330}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
