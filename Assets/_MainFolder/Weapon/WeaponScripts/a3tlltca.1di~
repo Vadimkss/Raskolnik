@@ -1,0 +1,229 @@
+using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class WeaponBase : MonoBehaviour, IShootable
+{
+    protected WeaponConfigSO config;
+    protected Camera mainCamera;
+    protected float nextFireTime;
+    protected List<Transform> shootPoints = new List<Transform>();
+    protected float currentSpread;
+    protected bool isAltFireMode;
+    protected int burstShotsRemaining;
+    protected bool isShooting;
+
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+
+    protected virtual void Awake()
+    {
+        mainCamera = Camera.main;
+        originalPosition = transform.localPosition;
+        originalRotation = transform.localRotation;
+    }
+
+    public virtual void SetupWeapon(WeaponConfigSO config)
+    {
+        this.config = config;
+        InitializeShootPoints();
+        ResetSpread();
+    }
+
+    protected virtual void InitializeShootPoints()
+    {
+        // Очищаем существующие точки
+        foreach (Transform point in shootPoints)
+        {
+            if (point != null) Destroy(point.gameObject);
+        }
+        shootPoints.Clear();
+
+        // Создаем новые точки стрельбы
+        for (int i = 0; i < config.shootPointOffsets.Count; i++)
+        {
+            GameObject spObject = new GameObject($"{config.shootPointBaseName}_{i}");
+            Transform point = spObject.transform;
+            point.SetParent(transform);
+            point.localPosition = config.shootPointOffsets[i];
+            shootPoints.Add(point);
+        }
+    }
+
+    protected float lastBurstShotTime; // Время последнего выстрела в очереди
+
+
+
+
+
+
+
+
+
+
+
+    public virtual void ToggleAlternativeFire()
+    {
+        if (config.hasAlternativeFire)
+        {
+            isAltFireMode = !isAltFireMode;
+            ResetSpread();
+        }
+    }
+
+    protected virtual void Update()
+    {
+        UpdateSpread();
+
+        if (isShooting)
+        {
+            switch (config.fireMode)
+            {
+                case FireMode.Auto:
+                    if (Time.time >= nextFireTime)
+                    {
+                        Shoot();
+                        Debug.Log($"Update: isShooting={isShooting}, Time.time={Time.time}, nextFireTime={nextFireTime}");
+                    }
+                    break;
+            }
+        }
+
+    }
+    public virtual void StartShooting()
+    {
+        isShooting = true;
+        if (config.fireMode == FireMode.Burst)
+        {
+            burstShotsRemaining = config.burstSize;
+            lastBurstShotTime = -1f; // Сброс таймера очереди
+        }
+        else
+        {
+            nextFireTime = Time.time; // Убедитесь, что тайминг обновляется при старте стрельбы
+        }
+    }
+
+    public virtual void StopShooting()
+    {
+        isShooting = false;
+    }
+    public abstract void Shoot();
+
+    protected bool CanShoot()
+    {
+        float currentFireRate = isAltFireMode ? config.alternativeFireRate : config.fireRate;
+        return Time.time >= nextFireTime && currentFireRate > 0;
+    }
+
+    protected void UpdateNextFireTime()
+    {
+        float currentFireRate = isAltFireMode ? config.alternativeFireRate : config.fireRate;
+        if (currentFireRate > 0) // Защита от деления на ноль
+        {
+            nextFireTime = Time.time + 1f / currentFireRate;
+        }
+    }
+
+    protected virtual void UpdateSpread()
+    {
+        SpreadConfig spreadConfig = isAltFireMode ?
+            config.alternativeSpreadConfig : config.spreadConfig;
+
+        if (isShooting)
+        {
+            currentSpread = Mathf.Min(currentSpread + spreadConfig.spreadIncrease * Time.deltaTime,
+                spreadConfig.maxSpread);
+        }
+        else
+        {
+            currentSpread = Mathf.Max(currentSpread - spreadConfig.spreadDecrease * Time.deltaTime,
+                spreadConfig.baseSpread);
+        }
+    }
+
+    protected void ResetSpread()
+    {
+        SpreadConfig spreadConfig = isAltFireMode ?
+            config.alternativeSpreadConfig : config.spreadConfig;
+        currentSpread = spreadConfig.baseSpread;
+    }
+
+    protected Vector3 GetShootDirection(Transform shootPoint)
+    {
+        // Пускаем луч из центра камеры
+        Ray cameraRay = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Vector3 targetPoint;
+
+        // Проверяем попадание луча в объекты
+        if (Physics.Raycast(cameraRay, out RaycastHit hit, config.range, config.targetLayers))
+        {
+            targetPoint = hit.point;
+        }
+        else
+        {
+            // Если луч ни во что не попал, берём точку на максимальной дистанции
+            targetPoint = cameraRay.origin + cameraRay.direction * config.range;
+        }
+
+        // Получаем направление от точки спавна к точке попадания
+        Vector3 direction = (targetPoint - shootPoint.position).normalized;
+
+        // Применяем разброс
+        float spreadX = Random.Range(-currentSpread, currentSpread);
+        float spreadY = Random.Range(-currentSpread, currentSpread);
+
+        Quaternion randomRotation = Quaternion.Euler(spreadX, spreadY, 0);
+        return randomRotation * direction;
+    }
+
+    protected void ApplyRecoil()
+    {
+        // Отменяем предыдущую анимацию отдачи, если она есть
+        transform.DOKill();
+
+        // Получаем текущую конфигурацию отдачи
+        RecoilConfig recoil = config.recoilConfig;
+
+        // Рассчитываем случайное отклонение для отдачи
+        float randomHorizontal = Random.Range(-recoil.horizontalRecoil, recoil.horizontalRecoil);
+
+        // Применяем отдачу с использованием DOTween
+        transform.DOLocalRotate(
+            new Vector3(-recoil.verticalRecoil, randomHorizontal, 0),
+            recoil.recoilRecoveryTime * 0.1f)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() => {
+                // Возвращаем в исходное положение
+                transform.DOLocalRotate(originalRotation.eulerAngles, recoil.recoilRecoveryTime)
+                    .SetEase(Ease.InOutQuad);
+            });
+
+        // Добавляем отдачу назад
+        transform.DOLocalMove(
+            originalPosition + Vector3.back * recoil.verticalRecoil * 0.1f,
+            recoil.recoilRecoveryTime * 0.1f)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() => {
+                transform.DOLocalMove(originalPosition, recoil.recoilRecoveryTime)
+                    .SetEase(Ease.InOutQuad);
+            });
+    }
+
+    protected virtual void OnDrawGizmos()
+    {
+        if (!Application.isPlaying) return;
+
+        foreach (Transform point in shootPoints)
+        {
+            if (point != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawSphere(point.position, 0.1f);
+                Gizmos.color = Color.blue;
+                Gizmos.DrawRay(point.position, point.forward * 2);
+            }
+        }
+    }
+}

@@ -1,0 +1,2 @@
+I recomend you to download free Post Processing Stack from the Package Manager and use post effect "bloom".
+Effects on the video and screenshots are made using the settings file "PP low" (HSFiles) for PPS.

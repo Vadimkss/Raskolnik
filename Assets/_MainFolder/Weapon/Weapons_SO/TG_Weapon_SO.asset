@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ffb3c40d8c914440ac9caf738beacb7, type: 3}
+  m_Name: TG_Weapon_SO
+  m_EditorClassIdentifier: 
+  weaponName: Default Weapon
+  shootType: 1
+  fireMode: 1
+  damage: 5
+  fireRate: 11
+  damageDecreaseByDistance: 1
+  projectilesPerShot: 2
+  burstSize: 5
+  attackType: 4
+  shootPointOffsets:
+  - {x: -0.4, y: 0, z: 4}
+  shootPointBaseName: ShootPoint
+  spreadConfig:
+    baseSpread: 2
+    maxSpread: 4
+    spreadIncrease: 0.5
+    spreadDecrease: 1
+  hasAlternativeFire: 0
+  alternativeShootType: 0
+  alternativeDamage: 10
+  alternativeFireRate: 1
+  alternativeProjectilesPerShot: 1
+  alternativeSpreadConfig:
+    baseSpread: 1
+    maxSpread: 5
+    spreadIncrease: 0.5
+    spreadDecrease: 1
+  projectileSpeed: 300
+  range: 30
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  projectilePrefab: {fileID: 1519322442116508, guid: b88015fe9dbd5324993165d029dd34fb,
+    type: 3}
+  weaponModelPrefab: {fileID: 4229774744369017744, guid: 55b89051f2c39434d99da3029919d10c,
+    type: 3}
+  muzzleFlashPrefab: {fileID: 1029261581862512, guid: aae1c27aeb9c8f34ab7c9b9b328b585a,
+    type: 3}
+  shootSound: {fileID: 0}
+  shootLine: {fileID: 0}
+  tracerPrefab: {fileID: 1687819981742800708, guid: 4a7d656d4ee6e3a498987727deb1d8f4,
+    type: 3}
+  tracerSpeed: 100
+  tracerLifetime: 0.1
