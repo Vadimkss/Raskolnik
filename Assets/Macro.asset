@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625114ef92abc6f4d98f906588e93662, type: 3}
+  m_Name: Macro
+  m_EditorClassIdentifier: 
+  _serializedGraph: '{"type":"FlowCanvas.Macros.Macro","nodes":[{"_position":{"x":200.0,"y":200.0},"$type":"FlowCanvas.Macros.MacroInputNode","$id":"0"},{"_position":{"x":600.0,"y":200.0},"$type":"FlowCanvas.Macros.MacroOutputNode","$id":"1"}],"connections":[{"_sourcePortName":"43ef7ba8-f89f-44c2-a6c8-6747fac27db5","_targetPortName":"cd8fbb4e-5fb6-4199-9894-888cbabdcd36","_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"FlowCanvas.BinderConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"inputDefinitions":[{"_ID":"43ef7ba8-f89f-44c2-a6c8-6747fac27db5","_name":"In","_type":"FlowCanvas.Flow"}],"outputDefinitions":[{"_ID":"cd8fbb4e-5fb6-4199-9894-888cbabdcd36","_name":"Out","_type":"FlowCanvas.Flow"}],"$type":"FlowCanvas.Macros.Macro+DerivedSerializationData"}}'
+  _objectReferences: []
+  _graphSource:
+    _version: 3.3
+    _category: 
+    _comments: 
+    _translation: {x: 0, y: 0}
+    _zoomFactor: 1
+  _haltSerialization: 0
+  _externalSerializationFile: {fileID: 0}
+  inputDefinitions:
+  - _ID: 43ef7ba8-f89f-44c2-a6c8-6747fac27db5
+    _name: In
+    _type: FlowCanvas.Flow
+  outputDefinitions:
+  - _ID: cd8fbb4e-5fb6-4199-9894-888cbabdcd36
+    _name: Out
+    _type: FlowCanvas.Flow

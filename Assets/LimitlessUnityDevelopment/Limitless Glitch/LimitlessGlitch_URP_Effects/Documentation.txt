@@ -1,0 +1,72 @@
+Limitless Glitch Effects v2.4.0 Manual. 
+
+
+THANK YOU
+
+Thank you for purchasing Limitless Glitch Effects  - you've made my day! 
+
+///
+Limitless Glitch Effects on Unity Asset Store - http://u3d.as/1yuU
+
+Limitless Glitch Effects on Itch.io - https://limitless-development.itch.io/limitless-glitch
+
+ 
+========
+
+SRP support
+
+Limitless Glitch Effects fully supports:
+
+Universal Render Pipeline. All effects will work Custom render feature.
+
+HD Render Pipeline. Custom Post-processing effects.
+
+Standard Render Pipeline. Effects for Post-processing stack v2.
+
+
+========
+
+Setup NEW Effects for Universal Render Pipeline.
+
+1. Open your Renderer(Forward Render by default) and click "Add Render Feature".
+2. Add all Limitless Glitch effects you need. 
+3. Change Event in all effects to "Before Rendering Post-processing"
+4. For best look customize the order of Limitless Glitch effects.
+3. In your scene add Volume component to any gameobject you want. In volume component create new volume profile or use existing one. Click "override" and select needed effect.
+
+========
+
+Setup Example Scenes Effects:
+
+1. In your UniversalRenderPipelineAsset (In "Asset/settings" folder by default) in Renderer List select "Limitless_Renderer".
+
+
+========
+
+Use "Global Post Processing Settings" to enable or disable Post Processing in scene view or via camera setup. THIS SETTING SHOULD BE TURNED OFF FOR EFFECTS, IN CASE OF USING THEM FOR SEPARATE LAYERS
+
+========
+
+**Manipulating effects variables **      
+
+See EffectsManipulationExample.cs file
+
+========
+
+Online API - https://limitless-development.xyz/Limitless-Glitch-Effects-API
+
+========
+
+
+
+========
+[Contact]
+///
+
+If you want to leave a feedback or ask for new feature, use Asset related forum thread.
+If you run into any issues or have questions, please do not hesitate to reach out ! I will do my best to respond as soon as I can.
+
+Contact email: limitlessunitydevelopment@gmail.com
+
+Please keep in mind that I’m in the UTC+5 timezone and usually reserve weekends for personal time.
+///

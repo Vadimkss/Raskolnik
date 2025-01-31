@@ -1,0 +1,916 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8504439102232846340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Menu Ambient
+  m_EditorClassIdentifier: 
+  Path: event:/Menu Ambient
+  Guid:
+    Data1: 674101973
+    Data2: 1117451420
+    Data3: 2049076636
+    Data4: 1894430211
+  Banks:
+  - {fileID: -1909158326898244103}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 128861
+--- !u!114 &-8138796619698800902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/Dash
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/Dash
+  Guid:
+    Data1: 1687795147
+    Data2: 1122503670
+    Data3: -1406842460
+    Data4: -1546176378
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-6154927162944077374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Armature_Skeleton_Step2
+  m_EditorClassIdentifier: 
+  Path: event:/Armature_Skeleton_Step2
+  Guid:
+    Data1: -1137213758
+    Data2: 1074435442
+    Data3: 1835567284
+    Data4: -1711435298
+  Banks:
+  - {fileID: 8104567121674339627}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-4953328239084797209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/Jump 2
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/Jump 2
+  Guid:
+    Data1: 25880215
+    Data2: 1302275114
+    Data3: -968596565
+    Data4: -819157520
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 299
+--- !u!114 &-4764686719873067201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Armature_Skeleton_Step1
+  m_EditorClassIdentifier: 
+  Path: event:/Armature_Skeleton_Step1
+  Guid:
+    Data1: -221833291
+    Data2: 1172839482
+    Data3: -19107397
+    Data4: 1760103863
+  Banks:
+  - {fileID: 8104567121674339627}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-4702903021014956889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/FootSteps
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/FootSteps
+  Guid:
+    Data1: -786111062
+    Data2: 1186723036
+    Data3: -1277282636
+    Data4: 1657466664
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &-4441317102373714257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/DualPistolsShooting
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/DualPistolsShooting
+  Guid:
+    Data1: -2118095973
+    Data2: 1236570847
+    Data3: 1010639496
+    Data4: -112098423
+  Banks:
+  - {fileID: 5757731260208654505}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-4018051180227268993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/WeaponSFX/RevolverShot
+  m_EditorClassIdentifier: 
+  Path: event:/WeaponSFX/RevolverShot
+  Guid:
+    Data1: -1642789413
+    Data2: 1218027801
+    Data3: 1907762578
+    Data4: -1714104798
+  Banks:
+  - {fileID: 5757731260208654505}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 4147721870283515956}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-3901022463110184702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/Slam
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/Slam
+  Guid:
+    Data1: -1271039542
+    Data2: 1104516453
+    Data3: 1437145776
+    Data4: -680508483
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 920
+--- !u!114 &-3492449616917014337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/FootStep
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/FootStep
+  Guid:
+    Data1: -2058392323
+    Data2: 1201177701
+    Data3: 1908736168
+    Data4: -647780543
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2958654292458730534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: G:/ProgramFiles/AudioSystem/audio_system_cybershooter/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638735102076597150
+  FileSizes:
+  - Name: Desktop
+    Value: 1036
+  Exists: 1
+--- !u!114 &-2685106114524091327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Case Open
+  m_EditorClassIdentifier: 
+  Path: event:/Case Open
+  Guid:
+    Data1: -2052185897
+    Data2: 1157624561
+    Data3: -577203308
+    Data4: -2073935200
+  Banks:
+  - {fileID: -2224515968188102734}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 229
+--- !u!114 &-2224515968188102734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MainMenuSFX.bank
+  m_EditorClassIdentifier: 
+  Path: G:/ProgramFiles/AudioSystem/audio_system_cybershooter/Build/Desktop/MainMenuSFX.bank
+  Name: MainMenuSFX
+  StudioPath: bank:/MainMenuSFX
+  lastModified: 638624302571651419
+  FileSizes:
+  - Name: Desktop
+    Value: 14432
+  Exists: 1
+--- !u!114 &-1909158326898244103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Music.bank
+  m_EditorClassIdentifier: 
+  Path: G:/ProgramFiles/AudioSystem/audio_system_cybershooter/Build/Desktop/Music.bank
+  Name: Music
+  StudioPath: bank:/Music
+  lastModified: 638734509141050413
+  FileSizes:
+  - Name: Desktop
+    Value: 5132064
+  Exists: 1
+--- !u!114 &-1567798682424227271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/EnemyDeath
+  m_EditorClassIdentifier: 
+  Path: event:/EnemyDeath
+  Guid:
+    Data1: 833638087
+    Data2: 1167309285
+    Data3: -1931477626
+    Data4: 1817997360
+  Banks:
+  - {fileID: 8104567121674339627}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: 2152395226143447106}
+  - {fileID: -2958654292458730534}
+  - {fileID: 3334869437671772046}
+  - {fileID: 5757731260208654505}
+  - {fileID: 6416111790107438023}
+  - {fileID: 8104567121674339627}
+  - {fileID: -1909158326898244103}
+  - {fileID: -2224515968188102734}
+  EditorEvents:
+  - {fileID: 3556361483977347839}
+  - {fileID: -1567798682424227271}
+  - {fileID: 509749697644873082}
+  - {fileID: 8845407144958740052}
+  - {fileID: 8625915108450496302}
+  - {fileID: -4953328239084797209}
+  - {fileID: -4702903021014956889}
+  - {fileID: 7106365963167998736}
+  - {fileID: -3901022463110184702}
+  - {fileID: -8138796619698800902}
+  - {fileID: 4297070112808635763}
+  - {fileID: -3492449616917014337}
+  - {fileID: -4441317102373714257}
+  - {fileID: 7168543499412111569}
+  - {fileID: -8504439102232846340}
+  - {fileID: -2685106114524091327}
+  - {fileID: 6298926088634201339}
+  - {fileID: 7788438813376133484}
+  - {fileID: 7222333190590409804}
+  - {fileID: -4018051180227268993}
+  - {fileID: -4764686719873067201}
+  - {fileID: -6154927162944077374}
+  - {fileID: 7213876383101298391}
+  - {fileID: 192946702320279895}
+  - {fileID: 107019038483403809}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -2958654292458730534}
+  StringsBanks:
+  - {fileID: 2152395226143447106}
+  cacheTime: 638735113937646583
+  cacheVersion: 131619
+--- !u!114 &107019038483403809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Armature_Skeleton_Atack_Preparetion
+  m_EditorClassIdentifier: 
+  Path: event:/Armature_Skeleton_Atack_Preparetion
+  Guid:
+    Data1: 981752709
+    Data2: 1264656498
+    Data3: -16674123
+    Data4: -1456592834
+  Banks:
+  - {fileID: 8104567121674339627}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &192946702320279895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/HiHat
+  m_EditorClassIdentifier: 
+  Path: event:/HiHat
+  Guid:
+    Data1: -1705713291
+    Data2: 1273515482
+    Data3: -1486129995
+    Data4: -528785926
+  Banks:
+  - {fileID: -1909158326898244103}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &509749697644873082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/Slam falling
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/Slam falling
+  Guid:
+    Data1: -968274399
+    Data2: 1084055347
+    Data3: 1874552238
+    Data4: -1421625170
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3422
+--- !u!114 &2152395226143447106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: G:/ProgramFiles/AudioSystem/audio_system_cybershooter/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638735102076602259
+  FileSizes:
+  - Name: Desktop
+    Value: 2188
+  Exists: 1
+--- !u!114 &3334869437671772046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
+  m_EditorClassIdentifier: 
+  Path: G:/ProgramFiles/AudioSystem/audio_system_cybershooter/Build/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 638582882741689487
+  FileSizes:
+  - Name: Desktop
+    Value: 494
+  Exists: 1
+--- !u!114 &3556361483977347839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/HeavyLaserShot
+  m_EditorClassIdentifier: 
+  Path: event:/HeavyLaserShot
+  Guid:
+    Data1: -1270796061
+    Data2: 1179792440
+    Data3: -711892320
+    Data4: -1923160300
+  Banks:
+  - {fileID: 5757731260208654505}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &4147721870283515956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/RevolverShot/Parameter 1
+  m_EditorClassIdentifier: 
+  Name: Parameter 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1351790014
+    data2: 2401291805
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &4297070112808635763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/Sliding
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/Sliding
+  Guid:
+    Data1: -2085112362
+    Data2: 1220269993
+    Data3: 189271203
+    Data4: -1687137700
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3289
+--- !u!114 &5757731260208654505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/WeaponSFX.bank
+  m_EditorClassIdentifier: 
+  Path: G:/ProgramFiles/AudioSystem/audio_system_cybershooter/Build/Desktop/WeaponSFX.bank
+  Name: WeaponSFX
+  StudioPath: bank:/WeaponSFX
+  lastModified: 638734494047766604
+  FileSizes:
+  - Name: Desktop
+    Value: 109184
+  Exists: 1
+--- !u!114 &6298926088634201339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/DOPath
+  m_EditorClassIdentifier: 
+  Path: event:/DOPath
+  Guid:
+    Data1: 840045964
+    Data2: 1100625622
+    Data3: -759426378
+    Data4: 1689297702
+  Banks:
+  - {fileID: -2224515968188102734}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 536
+--- !u!114 &6416111790107438023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/PLayerSFX.bank
+  m_EditorClassIdentifier: 
+  Path: G:/ProgramFiles/AudioSystem/audio_system_cybershooter/Build/Desktop/PLayerSFX.bank
+  Name: PLayerSFX
+  StudioPath: bank:/PLayerSFX
+  lastModified: 638655573250391560
+  FileSizes:
+  - Name: Desktop
+    Value: 256512
+  Exists: 1
+--- !u!114 &7106365963167998736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/Jump
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/Jump
+  Guid:
+    Data1: 1291497394
+    Data2: 1132552112
+    Data3: 1807706803
+    Data4: -1149795473
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 950
+--- !u!114 &7168543499412111569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/HydeFocusing
+  m_EditorClassIdentifier: 
+  Path: event:/HydeFocusing
+  Guid:
+    Data1: -1021779288
+    Data2: 1158515699
+    Data3: -122409293
+    Data4: -1579543609
+  Banks:
+  - {fileID: 5757731260208654505}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &7213876383101298391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Armature_Skeleton_Moving
+  m_EditorClassIdentifier: 
+  Path: event:/Armature_Skeleton_Moving
+  Guid:
+    Data1: -1098559877
+    Data2: 1331638269
+    Data3: 602588307
+    Data4: -1786404419
+  Banks:
+  - {fileID: 8104567121674339627}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &7222333190590409804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Corp Theme
+  m_EditorClassIdentifier: 
+  Path: event:/Corp Theme
+  Guid:
+    Data1: 2054891307
+    Data2: 1077748401
+    Data3: 1007597484
+    Data4: 84075365
+  Banks:
+  - {fileID: -1909158326898244103}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 239837
+--- !u!114 &7788438813376133484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CaseClose
+  m_EditorClassIdentifier: 
+  Path: event:/CaseClose
+  Guid:
+    Data1: -1940572455
+    Data2: 1266426217
+    Data3: -1212691794
+    Data4: -703910350
+  Banks:
+  - {fileID: -2224515968188102734}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 549
+--- !u!114 &8104567121674339627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/EnemySFX.bank
+  m_EditorClassIdentifier: 
+  Path: G:/ProgramFiles/AudioSystem/audio_system_cybershooter/Build/Desktop/EnemySFX.bank
+  Name: EnemySFX
+  StudioPath: bank:/EnemySFX
+  lastModified: 638735113937646583
+  FileSizes:
+  - Name: Desktop
+    Value: 107040
+  Exists: 1
+--- !u!114 &8625915108450496302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/Zipline
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/Zipline
+  Guid:
+    Data1: -565513837
+    Data2: 1309709466
+    Data3: 52359068
+    Data4: -1507827849
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1179
+--- !u!114 &8845407144958740052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSFX/Falled
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSFX/Falled
+  Guid:
+    Data1: 825822607
+    Data2: 1099208099
+    Data3: 436809145
+    Data4: 2092299484
+  Banks:
+  - {fileID: 6416111790107438023}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1131
