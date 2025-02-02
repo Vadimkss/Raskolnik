@@ -16,17 +16,21 @@ public class Sliding : MonoBehaviour
     public Animator RLegAnimator;
 
     [Header("Sliding Mechanics")]
+    public float slideSpeed;
     public float initialSlideSpeed = 20f; // Начальная скорость подката
     public float minFriction = 0.95f; // Минимальное трение на ровной поверхности
     public float maxFriction = 1.05f; // Максимальное трение на спуске
     public float upwardFriction = 0.9f; // Трение на подъеме
     public float stopSpeedThreshold = 5f; // Порог остановки по скорости
     public float currentSlideSpeed;
+    [SerializeField] float groundPullForce;
+    public float maxSlideSpeed = 40f; // Максимальная скорость скольжения
+    public float downhillAcceleration = 5f; // Ускорение при движении вниз
 
     [Header("Dynamic Friction")]
     public float initialFriction = 1.0f; // Начальное трение
     public float frictionDecayRate = 0.1f; // Скорость снижения трения
-    public float upwardFrictionMultiplier = 2.0f; // Множитель ускоренного снижения трения на подъеме
+   
 
     private Vector3 slideDirection;
     private float currentFriction;
@@ -88,17 +92,19 @@ public class Sliding : MonoBehaviour
 
     private void ApplyGroundPull()
     {
-        float groundPullForce = 100f; // Минимальное значение притяжения
-        groundPullForce = Mathf.Max(groundPullForce, 300f); // Устанавливаем минимальное значение
+       
+     
 
         rb.AddForce(Vector3.down * groundPullForce, ForceMode.Acceleration);
     }
 
     private void StartSlide()
     {
+        groundPullForce = 100;
+
         sliding = true;
         pm.sliding = true;
-        pm.desiredMoveSpeed = pm.slideSpeed;
+        pm.desiredMoveSpeed = slideSpeed;
 
         rb.useGravity = sliding;
 
@@ -135,41 +141,60 @@ public class Sliding : MonoBehaviour
         // Движение только в фиксированном направлении
         Vector3 slopeDirection = Vector3.ProjectOnPlane(slideDirection, surfaceNormal).normalized;
 
-        if (slopeAngle > 0f && slopeAngle < 45f) // Спуск
+        if (slopeAngle < 0f && Mathf.Abs(slopeAngle) < 45f) // Спуск
         {
-            // Ускорение на спуске
-            float acceleration = Mathf.Lerp(0f, maxFriction, slopeAngle / 45f);
-            rb.AddForce(slopeDirection * acceleration, ForceMode.Acceleration);
+            groundPullForce = 100;
+
+            // Базовое ускорение на основе крутизны склона
+            float slopeAcceleration = Mathf.Lerp(0f, downhillAcceleration, Mathf.Abs(slopeAngle) / 45f);
+
+            // Применяем ускорение в направлении склона
+            Vector3 accelerationForce = slopeDirection * slopeAcceleration * 2;
+
+         
+           
+
+            Debug.Log("вниз, текущая скорость: " + currentSlideSpeed);
         }
-        else if (slopeAngle >= 45f) // Подъем
-        {
-            Vector3 uphillDirection = Vector3.ProjectOnPlane(slideDirection, surfaceNormal).normalized;
 
-            // Увеличиваем трение на подъеме
-            float uphillResistance = upwardFriction * upwardFrictionMultiplier;
-            rb.AddForce(-uphillDirection * uphillResistance, ForceMode.Acceleration);
+        else if (slopeAngle > 0f) // Подъем
+            {
+            groundPullForce =  0;
+            currentFriction = Mathf.Max(currentFriction - frictionDecayRate * Time.fixedDeltaTime * upwardFriction, minFriction);
+            rb.velocity *= currentFriction;
 
-            // Принудительное снижение скорости
-            rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, frictionDecayRate * Time.fixedDeltaTime);
 
             if (rb.velocity.magnitude < stopSpeedThreshold)
             {
                 StopSlide();
             }
+
+            Debug.Log("вверх");
         }
         else // Ровная поверхность
         {
+            groundPullForce = 100;
             currentFriction = Mathf.Max(currentFriction - frictionDecayRate * Time.fixedDeltaTime, minFriction);
             rb.velocity *= currentFriction;
+
+            Debug.Log("ровно");
         }
 
         currentSlideSpeed = rb.velocity.magnitude;
         pm.desiredMoveSpeed = currentSlideSpeed;
-
+        UpdateCameraFOV();
         if (currentSlideSpeed < stopSpeedThreshold)
         {
             StopSlide();
         }
+    }
+
+    void UpdateCameraFOV()
+    {
+        float speedRatio = currentSlideSpeed / maxSlideSpeed;
+        float targetFOV = Mathf.Lerp(originalFov, dashFov, speedRatio);
+        cameraTransform.GetComponent<Camera>().fieldOfView =
+            Mathf.Lerp(cameraTransform.GetComponent<Camera>().fieldOfView, targetFOV, Time.deltaTime * 5f);
     }
 
     private Vector3 GetSurfaceNormal()
@@ -199,12 +224,12 @@ public class Sliding : MonoBehaviour
     {
         float rayDistance = 2f;
         Vector3[] rayOffsets = new Vector3[] {
-            Vector3.zero,
-            Vector3.forward * 0.5f,
-            Vector3.back * 0.5f,
-            Vector3.left * 0.5f,
-            Vector3.right * 0.5f
-        };
+        Vector3.zero,
+        Vector3.forward * 0.5f,
+        Vector3.back * 0.5f,
+        Vector3.left * 0.5f,
+        Vector3.right * 0.5f
+    };
 
         float totalAngle = 0f;
         int rayCount = 0;
@@ -215,7 +240,19 @@ public class Sliding : MonoBehaviour
             if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, rayDistance))
             {
                 Vector3 surfaceNormal = hit.normal;
-                totalAngle += Vector3.Angle(Vector3.up, surfaceNormal);
+
+                // Проецируем направление скольжения на плоскость склона
+                Vector3 projectedDirection = Vector3.ProjectOnPlane(slideDirection, surfaceNormal).normalized;
+
+                // Определяем знак угла на основе направления движения
+                float dot = Vector3.Dot(projectedDirection, Vector3.up);
+                float angle = Vector3.Angle(Vector3.up, surfaceNormal);
+
+                // Если движемся вверх по склону, делаем угол отрицательным
+                if (dot < 0)
+                    angle = -angle;
+
+                totalAngle += angle;
                 rayCount++;
             }
         }

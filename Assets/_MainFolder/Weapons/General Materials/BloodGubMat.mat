@@ -26,7 +26,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _DIFFUSEWARPAFFECTHALFTONE_ON
-  - _OUTLINETYPE_POSITION
+  - _OUTLINETYPE_NORMAL
   - _OVERLAYMODE1_NONE
   - _OVERLAYMODE_HATCHING
   - _RIMSPLITCOLOR_USESECONDCOLOR
@@ -195,7 +195,7 @@ Material:
     - _OutlineNoiseIntesity: 1.02
     - _OutlineNoiseScale: 9.87
     - _OutlineTextureStrength: 0
-    - _OutlineType: 1
+    - _OutlineType: 0
     - _OverlayMode: 2
     - _OverlayMode1: 0
     - _OverlayRotation: 68
@@ -229,7 +229,7 @@ Material:
     - _StepOffset: 0
     - _Strength: 0
     - _Surface: 0
-    - _Thicnkess: 0.0475
+    - _Thicnkess: 0.00015
     - _UVAnimationSpeed: 0
     - _UVAnimationSpeedSpec: 1.21
     - _UVAnimationSpeedWarp: 0

@@ -18,6 +18,9 @@ public class Slam : MonoCache
     public float maxSlamDuration = 5f;
     public LayerMask enemyLayer;
 
+    public float slamSpeedBoost = 1.5f; // Значение ускорения при слэме
+    public float slamSpeedBoostDuration = 2f; // Длительность ускорения при слэме
+
     public float minSlamRadius = 3f;
     public float maxSlamRadius = 10f;
     public float minUpwardForce = 500f;
@@ -162,7 +165,7 @@ public class Slam : MonoCache
             CreateAdditionalObject(additionalObjectScale);
         }
 
-        pm.ModifySpeed(pm.slamSpeedBoost, pm.slamSpeedBoostDuration);
+        pm.ModifySpeed(slamSpeedBoost, slamSpeedBoostDuration);
    }
 
     private void CreateAdditionalObject(Vector3 objectScale)

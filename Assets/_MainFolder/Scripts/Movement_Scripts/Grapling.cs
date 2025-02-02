@@ -21,6 +21,8 @@ public class Grappling : MonoCache
     public float overshootYAxis;
     public float raycastRadius;
     public float grappleSpeed;
+    [SerializeField] private float grappleSpeedBoost = 1.2f; // Значение ускорения при использовании крюка кошки
+    [SerializeField] float grappleSpeedBoostDuration = 2f; // Длительность ускорения при использовании крюка кошки
 
     private Vector3 grapplePoint;
 
@@ -124,7 +126,7 @@ public class Grappling : MonoCache
 
 
 
-        pm.ModifySpeed(pm.grappleSpeedBoost, pm.grappleSpeedBoostDuration);
+        pm.ModifySpeed(grappleSpeedBoost, grappleSpeedBoostDuration);
 
 
 

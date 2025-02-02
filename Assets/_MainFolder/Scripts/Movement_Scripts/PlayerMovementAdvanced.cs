@@ -9,10 +9,9 @@ public class PlayerMovementAdvanced : MonoCache
     [Header("Movement")]
     public float moveSpeed;
     public float baseMoveSpeed; // Базовая скорость
-    private float targetSpeed;
     [SerializeField]private float walkSpeed;
-    public float sprintSpeed;
-    public float slideSpeed;
+    [SerializeField]private float airMovementSpeed;
+  
     public float dashSpeed;
     public float dashSpeedChangeFactor;
     public float maxYSpeed;
@@ -22,10 +21,6 @@ public class PlayerMovementAdvanced : MonoCache
     private Coroutine speedModifierCoroutine; // Коррутина для управления временем действия модификации скорости
     public bool canMove = true;
 
-    [Header("Speed Return")]
-    public float speedReturnDuration = 1f; // Длительность возвращения к baseSpeed
-    private Coroutine speedReturnCoroutine;
-
     [Header("Jumping")]
     public float jumpForce;
     public float jumpCooldown;
@@ -34,25 +29,11 @@ public class PlayerMovementAdvanced : MonoCache
     public int maxJumpCount = 2;
     public int jumpsRemaining = 0;
 
-    [Header("Slamming")]
-    public float slamSpeedBoost = 1.5f; // Значение ускорения при слэме
-    public float slamSpeedBoostDuration = 2f; // Длительность ускорения при слэме
-
-    [Header("Grappling Hook")]
-    public float grappleSpeedBoost = 1.2f; // Значение ускорения при использовании крюка кошки
-    public float grappleSpeedBoostDuration = 2f; // Длительность ускорения при использовании крюка кошки
-
-
-    [Header("Crouching")]
-    public float crouchSpeed;
-    public float crouchYScale;
-    private float startYScale;
-
+ 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode sprintKey = KeyCode.LeftShift;
-    public KeyCode crouchKey = KeyCode.LeftControl;
-
+ 
+   
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
@@ -87,16 +68,11 @@ public class PlayerMovementAdvanced : MonoCache
     private float verticalInput;
     private Vector3 moveDirection;
     private Rigidbody rb;
-
-
-
     private bool wasInAir = false;
-
-    public Grappling gr;
-
+    private Grappling gr;
     private Sliding sl;
-
     public MovementState state;
+    private GameObject mainCamera;
     public enum MovementState
     {
         freeze,
@@ -117,26 +93,18 @@ public class PlayerMovementAdvanced : MonoCache
 
     private void Start()
     {
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         sl = GetComponent<Sliding>();
         gr = GetComponent<Grappling>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
         UseGravity = true;
-
-        readyToJump = true;
-        startYScale = transform.localScale.y;
+        readyToJump = true;      
         jumpsRemaining = maxJumpCount;
-
         FootSteps = AudioManager.instance.CreateInstance(FMODEvents.Instance.FootSteps);
-
         footstepDistanceTraveled = 0f;
         footstepTimer = 0f;
-
-
     }
-
-
 
     protected override void Run()
     {
@@ -146,7 +114,6 @@ public class PlayerMovementAdvanced : MonoCache
         // ground check
         bool previouslyGrounded = grounded;
         grounded = Physics.Raycast(raycastStart, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-
         Debug.DrawRay(raycastStart, Vector3.down * (playerHeight * 0.5f + 0.2f), grounded ? Color.green : Color.red);
 
         MyInput();
@@ -175,18 +142,13 @@ public class PlayerMovementAdvanced : MonoCache
     protected override void FixedRun()
     {
         MovePlayer();
+        RotateBodyByCam();
 
         // Обновление звука шагов
-
-
         rb.drag = grounded && !activeGrapple ? groundDrag : 0;
-
         if (grounded)
         {
             jumpsRemaining = maxJumpCount;
-
-
-
 
             if (grounded && !sliding)
             {
@@ -197,6 +159,14 @@ public class PlayerMovementAdvanced : MonoCache
         }
     }
 
+    private void RotateBodyByCam()
+    {
+        Vector3 currentRotation = transform.eulerAngles;
+        currentRotation.y = mainCamera.transform.eulerAngles.y;
+        transform.eulerAngles = currentRotation;
+    }
+
+    //метод для временного отключения движения игрока
     public void DisableMovement(float duration)
     {
         Debug.Log("DisableMovement called for duration: " + duration);
@@ -232,23 +202,6 @@ public class PlayerMovementAdvanced : MonoCache
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        // start crouch
-        if (Input.GetKeyDown(crouchKey))
-        {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-        }
-
-        // stop crouch
-        if (Input.GetKeyUp(crouchKey))
-        {
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
-        }
-
-
-
-
-
     }
 
     public float desiredMoveSpeed;
@@ -281,18 +234,9 @@ public class PlayerMovementAdvanced : MonoCache
             state = MovementState.dashing;
             desiredMoveSpeed = dashSpeed;
         }
-        // Mode - Crouching
-        else if (Input.GetKey(crouchKey))
-        {
-            state = MovementState.crouching;
-            desiredMoveSpeed = crouchSpeed;
-        }
+      
         // Mode - Sprinting
-        else if (grounded && Input.GetKey(sprintKey))
-        {
-            state = MovementState.sprinting;
-            desiredMoveSpeed = sprintSpeed;
-        }
+     
         // Mode - Walking
         else if (grounded)
         {
@@ -303,7 +247,7 @@ public class PlayerMovementAdvanced : MonoCache
         else
         {
             state = MovementState.air;
-            desiredMoveSpeed = desiredMoveSpeed < sprintSpeed ? walkSpeed : sprintSpeed;
+            desiredMoveSpeed = desiredMoveSpeed < airMovementSpeed ? walkSpeed : airMovementSpeed;
         }
 
         // Если новая скорость отличается от предыдущей
@@ -329,7 +273,7 @@ public class PlayerMovementAdvanced : MonoCache
 
 
 
-    private float speedChangeFactor;
+    
 
     private IEnumerator SmoothlyLerpMoveSpeed()
     {
@@ -356,7 +300,7 @@ public class PlayerMovementAdvanced : MonoCache
         if (sliding)
         {
 
-            rb.AddForce(moveDirection.normalized * slideSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * sl.slideSpeed * 10f, ForceMode.Force);
             return;
         }
 
@@ -410,32 +354,9 @@ public class PlayerMovementAdvanced : MonoCache
             rb.velocity = new Vector3(rb.velocity.x, maxYSpeed, rb.velocity.z);
 
         // Плавное уменьшение скорости, если она больше базовой
-        if (moveSpeed > baseMoveSpeed && !sliding)
-        {
-            if (speedReturnCoroutine != null)
-            {
-                StopCoroutine(speedReturnCoroutine);
-            }
-            speedReturnCoroutine = StartCoroutine(ReturnSpeedToBase());
-        }
+       
     }
-    private IEnumerator ReturnSpeedToBase()
-    {
-        float startSpeed = moveSpeed;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < speedReturnDuration)
-        {
-            moveSpeed = Mathf.Lerp(startSpeed, baseMoveSpeed, elapsedTime / speedReturnDuration);
-            elapsedTime += Time.deltaTime;
-            UpdateMoveSpeed(); // Обновляем moveSpeed с учетом модификатора
-            yield return null;
-        }
-
-        moveSpeed = baseMoveSpeed;
-        UpdateMoveSpeed(); // Обновляем moveSpeed после завершения корутины
-        speedReturnCoroutine = null;
-    }
+  
     public void Jump()
     {
         exitingSlope = true;
@@ -449,8 +370,6 @@ public class PlayerMovementAdvanced : MonoCache
         {
             activeGrapple = false;
         }
-
-
 
         if (grounded)
         {
@@ -470,7 +389,7 @@ public class PlayerMovementAdvanced : MonoCache
         exitingSlope = false;
     }
 
-    private bool enableMovementOnNextTouch;
+    
 
     public void JumpToPosition(Vector3 targetPosition, float speed)
     {
@@ -507,6 +426,8 @@ public class PlayerMovementAdvanced : MonoCache
 
 
     private Vector3 velocityToSet;
+
+    private bool enableMovementOnNextTouch;
 
     private void SetVelocity()
     {
@@ -553,7 +474,6 @@ public class PlayerMovementAdvanced : MonoCache
         float gravity = Physics.gravity.y;
         float displacementY = endPoint.y - startPoint.y;
         Vector3 displacementXZ = new Vector3(endPoint.x - startPoint.x, 0f, endPoint.z - startPoint.z);
-
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajectoryHeight);
         Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
 
@@ -567,7 +487,6 @@ public class PlayerMovementAdvanced : MonoCache
         {
             StopCoroutine(speedModifierCoroutine);
         }
-
         // Запустите новую модификацию
         speedModifierCoroutine = StartCoroutine(ApplySpeedModifier(modifier, duration));
     }
@@ -578,8 +497,7 @@ public class PlayerMovementAdvanced : MonoCache
         externalSpeedModifier = modifier;
         UpdateMoveSpeed(); // Обновляем скорость сразу после изменения модификатора
 
-        // Ожидание указанного времени
-        yield return new WaitForSeconds(duration);
+      
 
         // Постепенный сброс к стандартной скорости
         float elapsedTime = 0f;
@@ -598,35 +516,8 @@ public class PlayerMovementAdvanced : MonoCache
         speedModifierCoroutine = null;
     }
 
-    private Coroutine reduceSpeedCoroutine;
-
-    private void SmoothlyReduceSpeedToBase()
-    {
-        if (reduceSpeedCoroutine != null)
-        {
-            StopCoroutine(reduceSpeedCoroutine);
-        }
-        reduceSpeedCoroutine = StartCoroutine(ReduceSpeedCoroutine());
-    }
-
-    private IEnumerator ReduceSpeedCoroutine()
-    {
-        float currentSpeed = rb.velocity.magnitude;
-        float time = 0f;
-        float duration = 1f; // Длительность уменьшения скорости
-
-        while (currentSpeed > baseMoveSpeed)
-        {
-            currentSpeed = Mathf.Lerp(currentSpeed, baseMoveSpeed, time / duration);
-            rb.velocity = rb.velocity.normalized * currentSpeed;
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        rb.velocity = rb.velocity.normalized * baseMoveSpeed;
-        reduceSpeedCoroutine = null;
-    }
-
+   
+   
 
 
     private void UpdateMoveSpeed()

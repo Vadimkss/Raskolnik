@@ -26,6 +26,8 @@ public class Dashing : MonoCache
     public float baseSpeed;
     public float speedBoostAmount;
     public float boostTime;
+    [SerializeField] private float dashSpeedBoost;
+    [SerializeField] private float dashSpeedBoostDuration;
 
     [Header("CameraEffects")]
     public PlayerCam cam;
@@ -192,7 +194,7 @@ public class Dashing : MonoCache
             rb.useGravity = true;
 
         // Плавно уменьшаем скорость до базовой
-   
+      
 
         dashEffect.enabled = false;
         StartCoroutine(DeactivateEffectCoroutine());
@@ -217,6 +219,8 @@ public class Dashing : MonoCache
     {
         yield return new WaitForSeconds(1f); // Delay of one second
         dashEffect.enabled = false;
+        pm.ModifySpeed(dashSpeedBoost, dashSpeedBoostDuration);
+
     }
 
    

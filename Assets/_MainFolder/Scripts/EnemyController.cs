@@ -212,8 +212,8 @@ public class EnemyController : MonoBehaviour
         Vector3 targetPosition = transform.position + adjustedDirection * RS_StepLenght;
 
         transform.DOMove(targetPosition, RS_StepDuration)
-          .SetEase(animationEase)
-            .OnComplete(() => Debug.Log("Ўаг завершЄн"));
+          .SetEase(animationEase);
+           
     }
 
     public void ResetTrigger(string triggerName)
