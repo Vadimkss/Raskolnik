@@ -7,7 +7,7 @@ using NTC.MonoCache;
 
 public class Dashing : MonoCache
 {
-    public ChromaticAberrationController chromaticAberrationController;
+   
 
     [Header("References")]
     public Transform orientation;
@@ -22,17 +22,15 @@ public class Dashing : MonoCache
     public float maxDashYSpeed;
     public float dashDuration;
     private bool dashReset = true;
-    public AudioSource dashAudioEffect;
-    public float baseSpeed;
-    public float speedBoostAmount;
-    public float boostTime;
+ 
+  
+  
     [SerializeField] private float dashSpeedBoost;
     [SerializeField] private float dashSpeedBoostDuration;
 
     [Header("CameraEffects")]
     public PlayerCam cam;
     public float dashFov;
-    CameraShaker cameraShaker;
 
     [Header("Settings")]
     public bool useCameraForward = true;
@@ -74,6 +72,7 @@ public class Dashing : MonoCache
         if (Input.GetKeyDown(dashKey) && currentStamina >= 100f)
         {
             Dash();
+           
         }
     }
 
@@ -108,11 +107,10 @@ public class Dashing : MonoCache
         pm.dashing = true;
         pm.maxYSpeed = maxDashYSpeed;
 
-        // Сохраняем текущую базовую скорость
-        baseSpeed = pm.moveSpeed;
+     
 
         // Убираем ускорение от рывка (больше не изменяем moveSpeed)
-        pm.desiredMoveSpeed = baseSpeed;
+        pm.desiredMoveSpeed = pm.baseMoveSpeed;
 
         cam.DoFov(dashFov);
 
@@ -132,7 +130,7 @@ public class Dashing : MonoCache
         dashEffect.enabled = true;
         currentStamina -= 100f;
         dashReset = false;
-        dashAudioEffect.Play();
+       
 
         if (pm.activeGrapple)
         {
@@ -194,16 +192,14 @@ public class Dashing : MonoCache
             rb.useGravity = true;
 
         // Плавно уменьшаем скорость до базовой
-      
 
+      
         dashEffect.enabled = false;
         StartCoroutine(DeactivateEffectCoroutine());
         dashReset = true;
         pm.canMove = true;
-      
+     
     }
-
- 
 
     private void StaminaReduction()
     {
@@ -220,8 +216,6 @@ public class Dashing : MonoCache
         yield return new WaitForSeconds(1f); // Delay of one second
         dashEffect.enabled = false;
         pm.ModifySpeed(dashSpeedBoost, dashSpeedBoostDuration);
-
     }
-
-   
+    
 }

@@ -73,11 +73,7 @@ public class PlayerCam : MonoCache
         }
     }
 
-    public void RotateCameraSmoothly(float rotationAmount)
-    {
-        Quaternion targetRotation = transform.rotation * Quaternion.Euler(0f, 0f, rotationAmount);
-        transform.DORotateQuaternion(targetRotation, 0.3f);
-    }
+   
 
     public void DoFov(float endValue)
     {

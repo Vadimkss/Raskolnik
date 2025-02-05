@@ -437,7 +437,7 @@ MonoBehaviour:
   - {fileID: -2958654292458730534}
   StringsBanks:
   - {fileID: 2152395226143447106}
-  cacheTime: 638735113937646583
+  cacheTime: 638742124247927873
   cacheVersion: 131619
 --- !u!114 &107019038483403809
 MonoBehaviour:
@@ -653,10 +653,10 @@ MonoBehaviour:
   Path: G:/ProgramFiles/AudioSystem/audio_system_cybershooter/Build/Desktop/WeaponSFX.bank
   Name: WeaponSFX
   StudioPath: bank:/WeaponSFX
-  lastModified: 638734494047766604
+  lastModified: 638742124247927873
   FileSizes:
   - Name: Desktop
-    Value: 109184
+    Value: 136672
   Exists: 1
 --- !u!114 &6298926088634201339
 MonoBehaviour:

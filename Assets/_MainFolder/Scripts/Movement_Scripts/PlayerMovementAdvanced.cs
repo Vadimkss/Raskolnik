@@ -482,12 +482,7 @@ public class PlayerMovementAdvanced : MonoCache
 
     public void ModifySpeed(float modifier, float duration)
     {
-        // Если уже идет другая модификация скорости, остановите её
-        if (speedModifierCoroutine != null)
-        {
-            StopCoroutine(speedModifierCoroutine);
-        }
-        // Запустите новую модификацию
+       
         speedModifierCoroutine = StartCoroutine(ApplySpeedModifier(modifier, duration));
     }
 
@@ -522,7 +517,7 @@ public class PlayerMovementAdvanced : MonoCache
 
     private void UpdateMoveSpeed()
     {
-        moveSpeed = desiredMoveSpeed * externalSpeedModifier; // Обновляем moveSpeed с учетом модификатора
+        moveSpeed = desiredMoveSpeed + externalSpeedModifier; // Обновляем moveSpeed с учетом модификатора
     }
     private void UpdateMoveSpeedText()
     {

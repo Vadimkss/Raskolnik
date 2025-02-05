@@ -143,7 +143,7 @@ public class Sliding : MonoBehaviour
 
         if (slopeAngle < 0f && Mathf.Abs(slopeAngle) < 45f) // Спуск
         {
-            groundPullForce = 100;
+            groundPullForce = 200;
 
             // Базовое ускорение на основе крутизны склона
             float slopeAcceleration = Mathf.Lerp(0f, downhillAcceleration, Mathf.Abs(slopeAngle) / 45f);

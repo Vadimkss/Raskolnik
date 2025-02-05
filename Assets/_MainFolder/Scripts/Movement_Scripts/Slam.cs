@@ -25,8 +25,7 @@ public class Slam : MonoCache
     public float maxSlamRadius = 10f;
     public float minUpwardForce = 500f;
     public float maxUpwardForce = 1500f;
-    public float minCrackScale = 0.5f;
-    public float maxCrackScale = 3f;
+ 
     public float minAdditionalObjectScale = 0.5f;
     public float maxAdditionalObjectScale = 3f;
     public float crackScaleDuration = 0.5f;
@@ -40,16 +39,20 @@ public class Slam : MonoCache
     public float maxFallSpeed = -50f;
 
     public VisualEffect slamEffect;
-    public Animator cameraShake;
+  
   
     public float yOffset = 0.1f;
     public Ease crackScaleEase = Ease.OutBounce;
     public float destroyDelay = 2f;
 
     public GameObject additionalObjectPrefab;
-    public float additionalObjectYOffset = 0.1f;
+    private float additionalObjectYOffset = 0.1f;
 
     private EventInstance slamInstance;
+    private float lastSlamRadius;
+
+    private float minAfterSlamJump = 0;
+    private float maxAfterSlamJump = 100;
 
     private void Start()
     {
@@ -88,6 +91,7 @@ public class Slam : MonoCache
 
         slamInstance = AudioManager.instance.PlayTimeline(FMODEvents.Instance.SlamFall, this.transform.position);
 
+      
     }
 
     protected override void FixedRun()
@@ -95,41 +99,56 @@ public class Slam : MonoCache
         if (isSlamming)
         {
             // Увеличиваем скорость падения с учетом ускорения
-            currentFallSpeed += fallAcceleration * Time.fixedDeltaTime;
+            currentFallSpeed += fallAcceleration * pm.moveSpeed * Time.fixedDeltaTime;
 
             // Ограничиваем скорость падения
-            currentFallSpeed = Mathf.Max(currentFallSpeed, maxFallSpeed);
+            currentFallSpeed = Mathf.Max(currentFallSpeed, maxFallSpeed * pm.moveSpeed * 2f);
 
             // Обновляем вертикальную скорость Rigidbody
             rb.velocity = new Vector3(rb.velocity.x, currentFallSpeed, rb.velocity.z);
         }
     }
 
+
     private void EndSlam()
     {
-        isSlamming = false;
-        slamEffect.enabled = false;
-      
-
-        // Рассчитываем процент от максимальной скорости падения
-        float slamFactor = Mathf.Clamp01(currentFallSpeed / maxFallSpeed);
-
-        float currentSlamRadius = Mathf.Lerp(minSlamRadius, maxSlamRadius, slamFactor);
-        float currentUpwardForce = Mathf.Lerp(minUpwardForce, maxUpwardForce, slamFactor);
-        Vector3 currentCrackScale = Vector3.one * Mathf.Lerp(minCrackScale, maxCrackScale, slamFactor);
-        Vector3 currentAdditionalObjectScale = Vector3.one * Mathf.Lerp(minAdditionalObjectScale, maxAdditionalObjectScale, slamFactor);
-
-        ApplySlamEffects(currentSlamRadius, currentUpwardForce, currentCrackScale, currentAdditionalObjectScale);
-
-        currentFallSpeed = 0;
-
-        AudioManager.instance.StopTimeline(slamInstance);
         pm.moveSpeed = pm.baseMoveSpeed;
 
-    }
+        isSlamming = false;
+        slamEffect.enabled = false;
 
-    private void ApplySlamEffects(float radius, float upwardForce, Vector3 crackScale, Vector3 additionalObjectScale)
+        Debug.Log(currentFallSpeed);
+      
+        // Рассчитываем процент от максимальной скорости падения
+        float slamFactor = Mathf.Clamp01(currentFallSpeed / (maxFallSpeed * pm.moveSpeed/10f));
+        float currentAfterSlamJump = Mathf.Lerp(minAfterSlamJump, maxAfterSlamJump, slamFactor);
+        float currentSlamRadius = Mathf.Lerp(minSlamRadius, maxSlamRadius, slamFactor);
+        float currentUpwardForce = Mathf.Lerp(minUpwardForce, maxUpwardForce, slamFactor);
+      
+        Vector3 currentAdditionalObjectScale = Vector3.one * Mathf.Lerp(minAdditionalObjectScale, maxAdditionalObjectScale, slamFactor);
+
+        ApplySlamEffects(currentSlamRadius, currentUpwardForce, currentAdditionalObjectScale);
+    
+        currentFallSpeed = 0;
+
+        if (slamFactor > 0.5f)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, currentAfterSlamJump, rb.velocity.z);
+        }
+
+        AudioManager.instance.StopTimeline(slamInstance);
+
+        Debug.Log("Slam Factor: " + slamFactor + ", After Slam Jump: " + currentAfterSlamJump);
+
+    }
+   
+
+   
+
+    private void ApplySlamEffects(float radius, float upwardForce, Vector3 additionalObjectScale)
     {
+
+        lastSlamRadius = radius; // Сохраняем последний использованный радиус
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, enemyLayer);
 
         foreach (Collider collider in colliders)
@@ -181,5 +200,11 @@ public class Slam : MonoCache
         yield return new WaitForSeconds(delay);
         agent.enabled = true;
         Brunner.enabled = true;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, lastSlamRadius);
     }
 }
