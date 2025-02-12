@@ -331,11 +331,7 @@ private void OnEnable()
             );
         }
 
-        // Отладочный вывод
-        if (isShooting)
-        {
-            Debug.Log($"Current spread: {currentSpread}, Max spread: {spreadConfig.maxSpread}");
-        }
+      
     }
 
     // Добавим метод для визуализации конуса разброса в редакторе

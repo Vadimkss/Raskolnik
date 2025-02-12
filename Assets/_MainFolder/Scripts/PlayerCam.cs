@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using NTC.MonoCache;
+using Movement;
 
 public class PlayerCam : MonoCache
 {

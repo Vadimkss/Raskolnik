@@ -87,7 +87,7 @@ public class RaycastWeapon : WeaponBase
         {
             Color debugColor = hitTarget ? Color.red : Color.yellow;
             Debug.DrawLine(startPoint, hitPoint, debugColor, 1f);
-            Debug.Log($"Shot from {startPoint} to {hitPoint}, Hit target: {hitTarget}");
+           
         }
     }
 

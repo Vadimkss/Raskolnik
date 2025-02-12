@@ -7,204 +7,254 @@ using NTC.MonoCache;
 using FMOD.Studio;
 using RenownedGames.AITree;
 
-public class Slam : MonoCache
+namespace Movement
 {
-    public KeyCode slamKey = KeyCode.LeftControl;
-    public float slamForce = 500f;
-    public float baseSlamRadius = 5f;
-    public float baseSlamUpwardForce = 1000f;
-    public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode dashKey = KeyCode.E;
-    public float maxSlamDuration = 5f;
-    public LayerMask enemyLayer;
-
-    public float slamSpeedBoost = 1.5f; // Значение ускорения при слэме
-    public float slamSpeedBoostDuration = 2f; // Длительность ускорения при слэме
-
-    public float minSlamRadius = 3f;
-    public float maxSlamRadius = 10f;
-    public float minUpwardForce = 500f;
-    public float maxUpwardForce = 1500f;
- 
-    public float minAdditionalObjectScale = 0.5f;
-    public float maxAdditionalObjectScale = 3f;
-    public float crackScaleDuration = 0.5f;
-    public float disappearDelay = 1f;
-
-    private Rigidbody rb;
-    private PlayerMovementAdvanced pm;
-    private bool isSlamming = false;
-    private float currentFallSpeed;
-    public float fallAcceleration = -9.81f;
-    public float maxFallSpeed = -50f;
-
-    public VisualEffect slamEffect;
-  
-  
-    public float yOffset = 0.1f;
-    public Ease crackScaleEase = Ease.OutBounce;
-    public float destroyDelay = 2f;
-
-    public GameObject additionalObjectPrefab;
-    private float additionalObjectYOffset = 0.1f;
-
-    private EventInstance slamInstance;
-    private float lastSlamRadius;
-
-    private float minAfterSlamJump = 0;
-    private float maxAfterSlamJump = 100;
-
-    private void Start()
+    /// <summary>
+    /// Handles the slam ability for the player, allowing them to perform ground-pound attacks
+    /// that affect nearby enemies and create visual effects.
+    /// </summary>
+    public class Slam : MonoCache
     {
-        rb = GetComponent<Rigidbody>();
-        pm = GetComponent<PlayerMovementAdvanced>();
-        slamEffect.enabled = false;
-    }
+        #region Variables
+        [Header("Input Settings")]
+        [SerializeField] private KeyCode slamKey = KeyCode.LeftControl;
+        [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+        [SerializeField] private KeyCode dashKey = KeyCode.E;
+       
+        [Header("Basic Slam Settings")]
+        [SerializeField] private float slamForce = 500f;
+        [SerializeField] private float maxSlamDuration = 5f;
+        [SerializeField] private LayerMask enemyLayer;
+        [SerializeField] private float fallAcceleration = -9.81f;
+        [SerializeField] private float maxFallSpeed = -50f;
 
-    protected override void Run()
-    {
-        if (Input.GetKeyDown(slamKey) && !pm.grounded && !isSlamming)
+        [Header("Slam Radius Settings")]
+        [SerializeField] private float minSlamRadius = 3f;
+        [SerializeField] private float maxSlamRadius = 10f;
+
+        [Header("Upward Force Settings")]
+        [SerializeField] private float minUpwardForce = 500f;
+        [SerializeField] private float maxUpwardForce = 1500f;
+
+        [Header("Speed Boost Settings")]
+        [SerializeField] private float slamSpeedBoost = 1.5f;
+        [SerializeField] private float slamSpeedBoostDuration = 2f;
+
+        [Header("After-Slam Jump Settings")]
+        [SerializeField] private float minAfterSlamJump = 0f;
+        [SerializeField] private float maxAfterSlamJump = 100f;
+       
+        [Header("Visual Effects")]
+        [SerializeField] private VisualEffect slamEffect;
+        [SerializeField] private GameObject additionalObjectPrefab;
+        [SerializeField] private float minAdditionalObjectScale = 0.5f;
+        [SerializeField] private float maxAdditionalObjectScale = 3f;
+        [SerializeField] private float crackScaleDuration = 0.5f;
+        [SerializeField] private float disappearDelay = 1f;
+        [SerializeField] private float yOffset = 0.1f;
+        [SerializeField] private Ease crackScaleEase = Ease.OutBounce;
+        [SerializeField] private float destroyDelay = 2f;
+      
+        private Rigidbody rb;
+        private PlayerMovementAdvanced playerMovement;
+        private bool isSlamming;
+        private float currentFallSpeed;
+        private EventInstance slamInstance;
+        private float lastSlamRadius;
+        private readonly float additionalObjectYOffset = 0.1f;
+        #endregion
+
+        #region Monos
+        private void Start()
         {
-            StartSlam();
+            InitializeComponents();
         }
 
-        if ((Input.GetKeyDown(jumpKey) || Input.GetKeyDown(dashKey)) && isSlamming)
+        #endregion
+
+        #region Updates
+        protected override void Run()
         {
-            EndSlam();
-            if (Input.GetKeyDown(jumpKey))
+            HandleSlamInput();
+            HandleCancelInput();
+            CheckGroundedState();
+        }
+
+        protected override void FixedRun()
+        {
+            UpdateSlamPhysics();
+        }
+        #endregion
+
+        #region Initialization
+        private void InitializeComponents()
+        {
+            rb = GetComponent<Rigidbody>();
+            playerMovement = GetComponent<PlayerMovementAdvanced>();
+            slamEffect.enabled = false;
+        }
+        #endregion
+
+        #region Input Handling
+        private void HandleSlamInput()
+        {
+            if (Input.GetKeyDown(slamKey) && !playerMovement.grounded && !isSlamming)
             {
-                pm.Jump();
+                StartSlam();
             }
         }
 
-        if (isSlamming && pm.grounded)
+        private void HandleCancelInput()
         {
-            EndSlam();
+            if ((Input.GetKeyDown(jumpKey) || Input.GetKeyDown(dashKey)) && isSlamming)
+            {
+                EndSlam();
+                if (Input.GetKeyDown(jumpKey))
+                {
+                    playerMovement.Jump();
+                }
+            }
         }
-    }
 
-    private void StartSlam()
-    {
-        isSlamming = true;
-        rb.velocity = new Vector3(rb.velocity.x, -slamForce, rb.velocity.z);
-        slamEffect.enabled = true;
-
-        slamInstance = AudioManager.instance.PlayTimeline(FMODEvents.Instance.SlamFall, this.transform.position);
-
-      
-    }
-
-    protected override void FixedRun()
-    {
-        if (isSlamming)
+        private void CheckGroundedState()
         {
-            // Увеличиваем скорость падения с учетом ускорения
-            currentFallSpeed += fallAcceleration * pm.moveSpeed * Time.fixedDeltaTime;
+            if (isSlamming && playerMovement.grounded)
+            {
+                EndSlam();
+            }
+        }
+        #endregion
 
-            // Ограничиваем скорость падения
-            currentFallSpeed = Mathf.Max(currentFallSpeed, maxFallSpeed * pm.moveSpeed * 2f);
+        #region Slam Mechanics
+        private void StartSlam()
+        {
+            isSlamming = true;
+            rb.velocity = new Vector3(rb.velocity.x, -slamForce, rb.velocity.z);
+            slamEffect.enabled = true;
+            slamInstance = AudioManager.instance.PlayTimeline(FMODEvents.Instance.SlamFall, transform.position);
+        }
 
-            // Обновляем вертикальную скорость Rigidbody
+        private void UpdateSlamPhysics()
+        {
+            if (!isSlamming) return;
+
+            float speedMultiplier = playerMovement.moveSpeed / 1.2f;
+            currentFallSpeed += fallAcceleration * speedMultiplier * Time.fixedDeltaTime;
+            currentFallSpeed = Mathf.Max(currentFallSpeed, maxFallSpeed * playerMovement.moveSpeed * 2f);
             rb.velocity = new Vector3(rb.velocity.x, currentFallSpeed, rb.velocity.z);
         }
-    }
 
-
-    private void EndSlam()
-    {
-        pm.moveSpeed = pm.baseMoveSpeed;
-
-        isSlamming = false;
-        slamEffect.enabled = false;
-
-        Debug.Log(currentFallSpeed);
-      
-        // Рассчитываем процент от максимальной скорости падения
-        float slamFactor = Mathf.Clamp01(currentFallSpeed / (maxFallSpeed * pm.moveSpeed/10f));
-        float currentAfterSlamJump = Mathf.Lerp(minAfterSlamJump, maxAfterSlamJump, slamFactor);
-        float currentSlamRadius = Mathf.Lerp(minSlamRadius, maxSlamRadius, slamFactor);
-        float currentUpwardForce = Mathf.Lerp(minUpwardForce, maxUpwardForce, slamFactor);
-      
-        Vector3 currentAdditionalObjectScale = Vector3.one * Mathf.Lerp(minAdditionalObjectScale, maxAdditionalObjectScale, slamFactor);
-
-        ApplySlamEffects(currentSlamRadius, currentUpwardForce, currentAdditionalObjectScale);
-    
-        currentFallSpeed = 0;
-
-        if (slamFactor > 0.5f)
+        private void EndSlam()
         {
-            rb.velocity = new Vector3(rb.velocity.x, currentAfterSlamJump, rb.velocity.z);
+            ResetMovementState();
+            float slamFactor = CalculateSlamFactor();
+            ApplySlamEffects(slamFactor);
+            AudioManager.instance.StopTimeline(slamInstance);
         }
 
-        AudioManager.instance.StopTimeline(slamInstance);
-
-        Debug.Log("Slam Factor: " + slamFactor + ", After Slam Jump: " + currentAfterSlamJump);
-
-    }
-   
-
-   
-
-    private void ApplySlamEffects(float radius, float upwardForce, Vector3 additionalObjectScale)
-    {
-
-        lastSlamRadius = radius; // Сохраняем последний использованный радиус
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, enemyLayer);
-
-        foreach (Collider collider in colliders)
+        private void ResetMovementState()
         {
-            Rigidbody enemyRb = collider.GetComponent<Rigidbody>();
-            NavMeshAgent agent = collider.GetComponent<NavMeshAgent>();
-            BehaviourRunner BRunner = collider.GetComponent<BehaviourRunner>();
+            playerMovement.moveSpeed = playerMovement.baseMoveSpeed;
+            isSlamming = false;
+            slamEffect.enabled = false;
+        }
 
-            if (enemyRb != null)
+        private float CalculateSlamFactor()
+        {
+            float speedFactor = currentFallSpeed / (maxFallSpeed * playerMovement.moveSpeed / 10f);
+            return Mathf.Clamp01(speedFactor);
+        }
+        #endregion
+
+        #region Effect Application
+        private void ApplySlamEffects(float slamFactor)
+        {
+            float currentAfterSlamJump = Mathf.Lerp(minAfterSlamJump, maxAfterSlamJump, slamFactor / 1.5f);
+            float currentSlamRadius = Mathf.Lerp(minSlamRadius, maxSlamRadius, slamFactor);
+            float currentUpwardForce = Mathf.Lerp(minUpwardForce, maxUpwardForce, slamFactor);
+            Vector3 objectScale = Vector3.one * Mathf.Lerp(minAdditionalObjectScale, maxAdditionalObjectScale, slamFactor);
+
+            ApplyAreaEffect(currentSlamRadius, currentUpwardForce);
+            ApplyPlayerEffects(slamFactor, currentAfterSlamJump);
+            SpawnVisualEffects(objectScale);
+        }
+
+        private void ApplyAreaEffect(float radius, float upwardForce)
+        {
+            lastSlamRadius = radius;
+            var affectedColliders = Physics.OverlapSphere(transform.position, radius, enemyLayer);
+
+            foreach (var collider in affectedColliders)
             {
-                if (agent != null)
+                if (TryGetEnemyComponents(collider, out Rigidbody enemyRb, out NavMeshAgent agent, out BehaviourRunner runner))
                 {
-                    agent.enabled = false;
-                    BRunner.enabled = false;
-                }
-
-                enemyRb.AddForce(Vector3.up * upwardForce, ForceMode.Impulse);
-
-                if (agent != null && BRunner != null)
-                {
-                    StartCoroutine(EnableNavMeshAgent(agent, BRunner, 1f));
-
-                  
-
+                    ApplyEnemyEffects(enemyRb, agent, runner, upwardForce);
                 }
             }
         }
 
-      
-
-        if (additionalObjectPrefab != null)
+        private bool TryGetEnemyComponents(Collider collider, out Rigidbody rb, out NavMeshAgent agent, out BehaviourRunner runner)
         {
-            CreateAdditionalObject(additionalObjectScale);
+            rb = collider.GetComponent<Rigidbody>();
+            agent = collider.GetComponent<NavMeshAgent>();
+            runner = collider.GetComponent<BehaviourRunner>();
+            return rb != null;
         }
 
-        pm.ModifySpeed(slamSpeedBoost, slamSpeedBoostDuration);
-   }
+        private void ApplyEnemyEffects(Rigidbody enemyRb, NavMeshAgent agent, BehaviourRunner runner, float upwardForce)
+        {
+            if (agent != null)
+            {
+                agent.enabled = false;
+                runner.enabled = false;
+                StartCoroutine(EnableNavMeshAgent(agent, runner, 1f));
+            }
 
-    private void CreateAdditionalObject(Vector3 objectScale)
-    {
-        Vector3 additionalSpawnPosition = transform.position + Vector3.up * additionalObjectYOffset;
-        GameObject additionalObjectInstance = Instantiate(additionalObjectPrefab, additionalSpawnPosition, Quaternion.identity);
-        additionalObjectInstance.transform.localScale = objectScale;
-        Destroy(additionalObjectInstance, destroyDelay);
-    }
+            enemyRb.AddForce(Vector3.up * upwardForce, ForceMode.Impulse);
+        }
 
-    private IEnumerator EnableNavMeshAgent(NavMeshAgent agent, BehaviourRunner Brunner, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        agent.enabled = true;
-        Brunner.enabled = true;
-    }
+        private void ApplyPlayerEffects(float slamFactor, float jumpForce)
+        {
+            currentFallSpeed = 0;
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, lastSlamRadius);
+            if (slamFactor > 0.2f)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+
+                if (slamFactor > 0.4f)
+                {
+                    playerMovement.ModifySpeed(slamSpeedBoost, slamSpeedBoostDuration);
+                }
+            }
+        }
+
+        private void SpawnVisualEffects(Vector3 objectScale)
+        {
+            if (additionalObjectPrefab != null)
+            {
+                Vector3 spawnPosition = transform.position + Vector3.up * additionalObjectYOffset;
+                GameObject visualEffect = Instantiate(additionalObjectPrefab, spawnPosition, Quaternion.identity);
+                visualEffect.transform.localScale = objectScale;
+                Destroy(visualEffect, destroyDelay);
+            }
+        }
+        #endregion
+
+        #region Coroutines
+        private IEnumerator EnableNavMeshAgent(NavMeshAgent agent, BehaviourRunner runner, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            agent.enabled = true;
+            runner.enabled = true;
+        }
+        #endregion
+
+        #region Gizmos
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, lastSlamRadius);
+        }
+        #endregion
     }
 }

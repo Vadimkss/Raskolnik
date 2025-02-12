@@ -1,6 +1,7 @@
 ﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Movement;
 
 public class GrapplingRope : MonoBehaviour {
     private Spring spring;
@@ -14,12 +15,16 @@ public class GrapplingRope : MonoBehaviour {
     public float waveCount;
     public float waveHeight;
     public AnimationCurve affectCurve;
+    private PlayerMovementAdvanced pm;
     
     
     void Awake() {
         
         spring = new Spring();
         spring.SetTarget(0);
+    }
+    void Start() {
+        pm = GetComponent<PlayerMovementAdvanced>();
     }
     
     //Called after Update
@@ -32,7 +37,7 @@ public class GrapplingRope : MonoBehaviour {
        
 
         //If not grappling, don't draw rope
-        if (!grapplingGun.IsGrappling()) {
+        if (!pm.activeGrapple) {
             currentGrapplePosition = grapplingGun.gunTip.position;
             spring.Reset();
             if (lr.positionCount > 0)

@@ -1,8 +1,7 @@
 using DG.Tweening;
 using NTC.MonoCache;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Movement;
 
 public class WallRunningAdvanced : MonoCache
 {

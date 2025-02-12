@@ -1,144 +1,213 @@
-using NTC.MonoCache;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using FMODUnity;
 using FMOD.Studio;
+using DG.Tweening;
+using NTC.MonoCache;
 
-public class Grappling : MonoCache
+namespace Movement
 {
-    [Header("References")]
-    private PlayerMovementAdvanced pm;
-    public Transform cam;
-    public Transform gunTip;
-    public LayerMask whatIsGrappleable;
-    public LineRenderer lr;
-    public Animator GrGAnimator;
-
-    [Header("Grappling")]
-    public float maxGrappleDistance;
-    public float grappleDelayTime;
-    public float overshootYAxis;
-    public float raycastRadius;
-    public float grappleSpeed;
-    [SerializeField] private float grappleSpeedBoost = 1.2f; // Значение ускорения при использовании крюка кошки
-    [SerializeField] float grappleSpeedBoostDuration = 2f; // Длительность ускорения при использовании крюка кошки
-
-    private Vector3 grapplePoint;
-
-    [Header("Cooldown")]
-    public float grapplingCd;
-    private float grapplingCdTimer;
-
-    [Header("Input")]
-    public KeyCode grappleKey = KeyCode.Mouse1;
-
-    public bool grappling;
-
-    private EventInstance ziplineInstance;
-
-    public KatanasController katanasController;
-
-    private void Start()
+    /// <summary>
+    /// Handles grappling hook mechanics for the player character.
+    /// </summary>
+    public class Grappling : MonoCache
     {
-        pm = GetComponent<PlayerMovementAdvanced>();
-        ziplineInstance = AudioManager.instance.CreateInstance(FMODEvents.Instance.Zipline);
+        #region Component References
+        [Header("Component References")]
+        [SerializeField] private Camera cam;
+        [SerializeField] public Transform gunTip;
+        [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] private Animator grapplingGunAnimator;
+        [SerializeField] private KatanasController katanasController;
+        #endregion
 
+        #region Grappling Settings
+        [Header("Grappling Settings")]
+        [SerializeField] private float maxGrappleDistance = 30f;
+        [SerializeField] private float grappleDelayTime = 0.2f;
+        [SerializeField] private float overshootYAxis = 2f;
+        [SerializeField] private float raycastRadius = 0.5f;
+        [SerializeField] private float grappleSpeed = 20f;
+        [SerializeField] private float grappleSpeedBoost = 1.2f;
+        [SerializeField] private float grappleSpeedBoostDuration = 2f;
+        [SerializeField] private LayerMask whatIsGrappleable;
+        #endregion
 
-    }
+        #region Cooldown Settings
+        [Header("Cooldown")]
+        [SerializeField] private float grapplingCooldown = 1f;
+        private float grapplingCooldownTimer;
+        #endregion
 
-    protected override void Run()
-    {
-        if (Input.GetKeyDown(grappleKey) && !pm.dashing)
-            StartGrapple();
+        #region Input Settings
+        [Header("Input")]
+        [SerializeField] private KeyCode grappleKey = KeyCode.Mouse1;
+        #endregion
 
-        if (grapplingCdTimer > 0)
-            grapplingCdTimer -= Time.deltaTime;
+        #region Private Fields
+        private PlayerMovementAdvanced pm;
+        private EventInstance ziplineInstance;
+        private Vector3 grapplePoint;
+        
+       
+        #endregion
 
-        if (pm.dashing || pm.wallRunning || pm.sliding)
-            StopGrapple();
-    }
-
-    protected override void LateRun()
-    {
-        if (grappling)
-            lr.SetPosition(0, gunTip.position);
-    }
-
-    private void StartGrapple()
-    {
-        if (grapplingCdTimer > 0) return;
-
-        grappling = true;
-        // pm.freeze = true;
-
-        GrGAnimator.SetTrigger("GrappleOn");
-
-        RaycastHit hit;
-        if (Physics.SphereCast(cam.position, raycastRadius, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
+        #region Unity Lifecycle
+        private void Start()
         {
-            grapplePoint = hit.point;
-            Invoke(nameof(ExecuteGrapple), grappleDelayTime);
+            InitializeComponents();
         }
-        else
+
+        protected override void Run()
         {
-            grapplePoint = cam.position + cam.forward * maxGrappleDistance;
+            HandleGrapplingInput();
+            UpdateCooldown();
+            CheckForGrapplingInterruption();
+        }
+
+        protected override void LateRun()
+        {
+            UpdateGrapplingRope();
+        }
+        #endregion
+
+        #region Initialization
+        private void InitializeComponents()
+        {
+            pm = GetComponent<PlayerMovementAdvanced>();
+            ziplineInstance = AudioManager.instance.CreateInstance(FMODEvents.Instance.Zipline);
+        }
+        #endregion
+
+        #region Grappling Logic
+        private void HandleGrapplingInput()
+        {
+            if (Input.GetKeyDown(grappleKey) && !pm.dashing)
+            {
+                StartGrapple();
+            }
+        }
+
+        private void StartGrapple()
+        {
+            if (grapplingCooldownTimer > 0) return;
+
+            pm.activeGrapple = true;
+            grapplingGunAnimator.SetTrigger("GrappleOn");
+            
+            if (TryFindGrapplePoint(out Vector3 hitPoint))
+            {
+                grapplePoint = hitPoint;
+                Invoke(nameof(ExecuteGrapple), grappleDelayTime);
+            }
+            else
+            {
+                HandleFailedGrapple();
+            }
+
+            InitializeGrappleVisuals();
+            PlayGrapplingSound();
+        }
+
+        private bool TryFindGrapplePoint(out Vector3 hitPoint)
+        {
+            RaycastHit hit;
+            bool didHit = Physics.SphereCast(
+                cam.transform.position,
+                raycastRadius,
+                cam.transform.forward,
+                out hit,
+                maxGrappleDistance,
+                whatIsGrappleable
+            );
+
+            hitPoint = didHit ? hit.point : Vector3.zero;
+            return didHit;
+        }
+
+        private void HandleFailedGrapple()
+        {
+            grapplePoint = cam.transform.position + cam.transform.forward * maxGrappleDistance;
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }
 
-        lr.enabled = true;
-        lr.SetPosition(1, grapplePoint);
-        pm.jumpsRemaining = pm.maxJumpCount;
+        private void InitializeGrappleVisuals()
+        {
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(1, grapplePoint);
+            pm.jumpsRemaining = pm.maxJumpCount;
+        }
 
-        AudioManager.instance.PlayOneShot(FMODEvents.Instance.Zipline, this.transform.position);
+        private void ExecuteGrapple()
+        {
+            pm.freeze = false;
 
-    }
+            float highestPointOnArc = CalculateGrappleArc();
+            pm.JumpToPosition(grapplePoint, grappleSpeed);
 
-    private void ExecuteGrapple()
-    {
-        pm.freeze = false;
+            Invoke(nameof(StopGrapple), 1f);
+            AudioManager.instance.StopInstance(ziplineInstance);
+        }
 
-        Vector3 lowestPoint = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
-        float grapplePointRelativeYPos = grapplePoint.y - lowestPoint.y;
-        float highestPointOnArc = grapplePointRelativeYPos + overshootYAxis;
+        private float CalculateGrappleArc()
+        {
+            Vector3 lowestPoint = transform.position + Vector3.down;
+            float grapplePointRelativeYPos = grapplePoint.y - lowestPoint.y;
+            return grapplePointRelativeYPos < 0 ? overshootYAxis : grapplePointRelativeYPos + overshootYAxis;
+        }
+        #endregion
 
-        if (grapplePointRelativeYPos < 0) highestPointOnArc = overshootYAxis;
+        #region Utility Methods
+        private void UpdateCooldown()
+        {
+            if (grapplingCooldownTimer > 0)
+            {
+                grapplingCooldownTimer -= Time.deltaTime;
+            }
+        }
 
+        private void CheckForGrapplingInterruption()
+        {
+            if (pm.dashing || pm.wallRunning || pm.sliding)
+            {
+                StopGrapple();
+            }
+        }
 
-        pm.JumpToPosition(grapplePoint, grappleSpeed);
+        private void UpdateGrapplingRope()
+        {
+            if (pm.activeGrapple)
+            {
+                lineRenderer.SetPosition(0, gunTip.position);
+            }
+        }
 
-        Invoke(nameof(StopGrapple), 1f);
+        private void PlayGrapplingSound()
+        {
+            AudioManager.instance.PlayOneShot(FMODEvents.Instance.Zipline, transform.position);
+        }
+        #endregion
 
-        AudioManager.instance.StopInstance(ziplineInstance);
+        #region Public Methods
+        public void StopGrapple()
+        {
+            pm.freeze = false;
+         
+            grapplingCooldownTimer = grapplingCooldown;
+            lineRenderer.enabled = false;
+            grapplingGunAnimator.SetTrigger("GrappleOff");
 
+            AudioManager.instance.StopInstance(ziplineInstance);
+            pm.ModifySpeed(grappleSpeedBoost, grappleSpeedBoostDuration);
+        }
 
-    }
+      
 
-    public void StopGrapple()
-    {
-        pm.freeze = false;
-        grappling = false;
-        grapplingCdTimer = grapplingCd;
-        lr.enabled = false;
-        GrGAnimator.SetTrigger("GrappleOff");
+        public Vector3 GetGrapplePoint() => grapplePoint;
 
-        AudioManager.instance.StopInstance(ziplineInstance);
-
-
-
-        pm.ModifySpeed(grappleSpeedBoost, grappleSpeedBoostDuration);
-
-
-
-    }
-
-    public bool IsGrappling()
-    {
-        return grappling;
-    }
-
-    public Vector3 GetGrapplePoint()
-    {
-        return grapplePoint;
+        public void ResetRestrictions()
+        {
+            pm.activeGrapple = false;
+            pm.cam.DoFov(85f);
+        }
+        #endregion
     }
 }

@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 using DamageNumbersPro;
+using Movement;
 
 
 public class KatanasController : MonoBehaviour
@@ -70,7 +69,7 @@ public class KatanasController : MonoBehaviour
     {
         if (Time.time >= nextAttackTime)
         {
-            if ((Input.GetMouseButtonDown(0) || (grapplingScript != null && grapplingScript.grappling && isEnemyInRange)))
+            if ((Input.GetMouseButtonDown(0) || (grapplingScript != null && pm.activeGrapple && isEnemyInRange)))
             {
                 DamageNumber damageNumber = katanasPopUp.SpawnGUI(KatanasPopUpHolder, Vector2.zero);
 
